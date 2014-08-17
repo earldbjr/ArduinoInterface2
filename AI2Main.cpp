@@ -86,6 +86,7 @@ AI2Frame::AI2Frame(wxWindow* parent,wxWindowID id)
     scPortNumber->SetValue(_T("0"));
     FlexGridSizer1->Add(scPortNumber, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     btnTogglePort = new wxToggleButton(Panel1, ID_TOGGLEBUTTON1, _("Closed"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TOGGLEBUTTON1"));
+    btnTogglePort->SetBackgroundColour(wxColour(255,0,0));
     FlexGridSizer1->Add(btnTogglePort, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     btnTest1 = new wxButton(Panel1, ID_BUTTON1, _("Test1"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
     FlexGridSizer1->Add(btnTest1, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
@@ -145,10 +146,9 @@ void AI2Frame::OnAbout(wxCommandEvent& event)
 
 void transmit(std::string buffer)
 {
-
     char message[buffer.size()+1]; //+1 to contain buffer + a null terminating char
     strncpy(message, buffer.c_str(), sizeof(message));
-    message[sizeof(message) - 1] = 0; // forces the last character to have a null termination
+    //message[sizeof(message) - 1] = 0; // forces the last character to have a null termination
     write(fd, &message, sizeof(message));//-1 = fail
 }
 void AI2Frame::OnbtnTogglePortToggle(wxCommandEvent& event)
@@ -156,6 +156,7 @@ void AI2Frame::OnbtnTogglePortToggle(wxCommandEvent& event)
     if(btnTogglePort->GetValue() == 1)
     {
         btnTogglePort->SetLabel(wxT("Open"));
+        btnTogglePort->SetBackgroundColour(wxColour(0,255,0));
         char chPortName[13]="/dev/ttyACM0";
         sprintf(chPortName, "/dev/ttyACM%i", PORT);
 
@@ -188,6 +189,7 @@ void AI2Frame::OnbtnTogglePortToggle(wxCommandEvent& event)
     if(btnTogglePort->GetValue() == 0)
     {
         btnTogglePort->SetLabel(wxT("Closed"));
+            btnTogglePort->SetBackgroundColour(wxColour(255,0,0));
         close(fd);
     }
 }
@@ -196,17 +198,18 @@ void AI2Frame::OnscPortNumberChange(wxSpinEvent& event)
 {
     btnTogglePort->SetValue(0);
     btnTogglePort->SetLabel(wxT("Closed"));
+    btnTogglePort->SetBackgroundColour(wxColour(255,0,0));
     close(fd);
 PORT = scPortNumber->GetValue();
 }
 
 void AI2Frame::OnbtnTest1Click(wxCommandEvent& event)
 {
-    std::string data = "12345";
+    std::string data = "$123:45;";
     transmit(data);
 }
 
 void AI2Frame::OnbtnTest2Click(wxCommandEvent& event)
 {
-    transmit("12346");
+    transmit("$123:46;");
 }

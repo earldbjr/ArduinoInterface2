@@ -7,8 +7,27 @@
 					<object class="wxFlexGridSizer" variable="FlexGridSizer1" member="no">
 						<cols>3</cols>
 						<object class="sizeritem">
+							<object class="wxStaticText" name="ID_STATICTEXT2" variable="lblPortNumber" member="yes">
+								<label>Port Number:</label>
+							</object>
+							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+							<border>5</border>
+						</object>
+						<object class="sizeritem">
+							<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="scPortNumber" member="yes">
+								<value>0</value>
+								<max>9</max>
+								<size>50,27</size>
+								<handler function="OnscPortNumberChange" entry="EVT_SPINCTRL" />
+							</object>
+							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+							<border>5</border>
+							<option>1</option>
+						</object>
+						<object class="sizeritem">
 							<object class="wxToggleButton" name="ID_TOGGLEBUTTON1" variable="btnTogglePort" member="yes">
-								<label>Port</label>
+								<label>Closed</label>
+								<bg>#FF0000</bg>
 								<handler function="OnbtnTogglePortToggle" entry="EVT_TOGGLEBUTTON" />
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
@@ -18,6 +37,7 @@
 						<object class="sizeritem">
 							<object class="wxButton" name="ID_BUTTON1" variable="btnTest1" member="yes">
 								<label>Test1</label>
+								<handler function="OnbtnTest1Click" entry="EVT_BUTTON" />
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
@@ -26,6 +46,7 @@
 						<object class="sizeritem">
 							<object class="wxButton" name="ID_BUTTON2" variable="btnTest2" member="yes">
 								<label>Test2</label>
+								<handler function="OnbtnTest2Click" entry="EVT_BUTTON" />
 							</object>
 							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>

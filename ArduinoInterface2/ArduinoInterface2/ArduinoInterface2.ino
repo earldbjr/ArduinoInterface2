@@ -1,22 +1,15 @@
 /***************************************************************
- * Name:      ArduinoInterfaceMain.cpp
- * Purpose:   Code for Application Frame
+ * Name:      ArduinoInterface2
+ * Purpose:   Code for Arduino Transceiver
  * Author:    Gizmo (earldbjr@gmail.com)
- * Created:   2014-07-16
- * Copyright: Gizmo ()
+ * Created:   17 Aug 2014
+ * Copyright: Gizmo
  * License:
  **************************************************************/
-//Serial instructions follow the format:
-//Device# - To differentiate between listening wireless devices
-//Primary Task - Choose between major tasks of the device
-//Primary Instruction - Choose function to call
-//Arg1
-//Arg2  
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(12,11,5,4,3,2);
 
 //int  intMenu, intSubmenu, intChoice, intEnd = -1;
-char buffer[5];
 
 void setup(){
   lcd.begin(16, 2);
@@ -24,25 +17,51 @@ void setup(){
   Serial.begin(9600);
   pinMode(13, OUTPUT);
 }
-
+// :58 ;59
 void loop() {
-
-  if(Serial.available()){
-    //delay(10);
-    //if(Serial.peek() == '<'){
-      //Serial.read();               // Erase <
-      delay(10);
-      for(int n=0; n<5; n++){    //Get Data
-        buffer[n] = Serial.read();
-        delay(10);
-      }
-      Serial.read();//Clear '\0', otherwise buffer refills from \0
-      lcd.setCursor(0,1);
-      for(int i=0;i<5;i++){
-        lcd.print(buffer[i]);
-        Serial.println(buffer[i]);
-      }
-    //}
-
+  String buffer;
+  String argument;
+  while(!Serial.available()){
+    //Catch
   }
+  if(Serial.peek() == '$'){
+    Serial.read();//Remove start token
+    while(Serial.peek() != ':'){
+      buffer.concat(char(Serial.read()));
+      delay(10);
+    }
+    buffer.toLowerCase();
+    if(Serial.peek() == ':'){
+      Serial.read();
+      delay(10);
+    }
+    while(Serial.peek() != ';'){
+      argument.concat(char(Serial.read()));
+      delay(10);  
+    }
+    argument.toLowerCase();
+    if(Serial.peek() == ';'){
+      Serial.read();
+    }
+    lcd.setCursor(0,1);
+    lcd.print("                ");
+    lcd.setCursor(0,1);
+    for(int i=0; i < buffer.length(); i++){
+      lcd.print(buffer[i]
+        );
+    }
+    lcd.print(":");
+    for(int i=0; i < argument.length();i++){
+      lcd.print(argument[i]);
+    }
+    Serial.read();//remove me
+  }
+  
 }
+
+
+
+
+
+
+
